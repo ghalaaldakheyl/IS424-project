@@ -1,0 +1,16 @@
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Viewport meta tag only -->
+    <title>Library Management System - Home</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Library Management System</h1>
+        <p><a href="{% url 'login' %}" class="btn btn-primary">Login</a></p>
+        <p><a href="{% url 'register' %}" class="btn btn-secondary">Register</a></p>
+    </div>
+</body>
+</html>

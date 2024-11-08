@@ -1,0 +1,36 @@
+{% extends 'library/base.html' %}
+
+{% block title %}Add a New Book{% endblock %}
+
+{% block content %}
+    <h1 class="my-4">Add a New Book</h1>
+
+    <!-- Form to add a new book -->
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="id_title" class="form-label">Title</label>
+            {{ form.title }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_author" class="form-label">Author</label>
+            {{ form.author }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_genre" class="form-label">Genre</label>
+            {{ form.genre }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_published_date" class="form-label">Published Date</label>
+            {{ form.published_date }}
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Add Book</button>
+        </div>
+    </form>
+{% endblock %}

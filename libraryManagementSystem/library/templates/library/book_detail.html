@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Detail</title>
+</head>
+<body>
+    <h2>Book Details</h2>
+    <table>
+        <tr>
+            <th>Title</th>
+            <td>{{ book.title }}</td>
+        </tr>
+        <tr>
+            <th>Author</th>
+            <td>{{ book.author }}</td>
+        </tr>
+        <tr>
+            <th>Genre</th>
+            <td>{{ book.genre }}</td>
+        </tr>
+        <tr>
+            <th>Publish Date</th>
+            <td>{{ book.published_date }}</td>
+        </tr>
+    </table>
+
+    <!--reserve book option -->
+    <a href="{% url 'book_list' %}">Back to Book List</a>
+    <a href="{% url 'edit_book' book.id %}">Edit Book</a>
+    <a href="{% url 'delete_book' book.id %}">Delete Book</a>
+     
+</body>
+</html>
