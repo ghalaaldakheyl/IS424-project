@@ -3,10 +3,11 @@ from .models import Book
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .forms import BookForm
+from .forms import BookForm, CustomUserCreationForm
+from django.contrib import messages
+from django.contrib.messages import get_messages
 
 def dashboard(request):
-    """Handles login and registration."""
     if request.method == 'POST':
         if 'login' in request.POST:
             return login_view(request)
@@ -37,10 +38,19 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Your account has been created successfully! You can now log in.")
             return redirect('login')
+        else:
+            messages.error(request, "There was an error with your registration. Please try again.")
     else:
         form = UserCreationForm()
+
+    # Clear messages manually if needed
+    # This will get all the messages in the current session and mark them as "consumed"
+    get_messages(request)
+
     return render(request, 'library/register.html', {'form': form})
+
 
 # View All Books
 @login_required
@@ -53,6 +63,12 @@ def book_list(request):
 def book_detail(request, book_id):
     # Fetch the book by its ID or return a 404 if not found
     book = get_object_or_404(Book, id=book_id)
+    if request.method == "POST" and "reserve" in request.POST:
+        if book.available:
+            book.reserved_by.add(request.user)
+            book.available = False
+            book.save()
+            return redirect('book_detail', book_id=book.id)
     return render(request, 'library/book_detail.html', {'book': book})
 
 # Add Book
@@ -97,8 +113,8 @@ def delete_book(request, book_id):
 
 # Reserve Book
 # not working
-@login_required
-def reserve_book(request, book_id):
-    book = get_object_or_404(Book, id=book_id)
-    book.reserved_by.add(request.user)
-    return redirect('book_detail', book_id=book.id)
+#@login_required
+#def reserve_book(request, book_id):
+ #   book = get_object_or_404(Book, id=book_id)
+ #   book.reserved_by.add(request.user)
+ #   return redirect('book_detail', book_id=book.id)
